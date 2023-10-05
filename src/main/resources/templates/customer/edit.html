@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title>Simple CRM - Customer Management made Simple</title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css">
+
+</head>
+<body>
+
+<nav th:replace="~{/layout/navbar}"/>
+
+<div class="container" style="margin-top:80px">
+
+    <h1 class="pb-2 border-bottom row">
+        <span class="col-12 col-sm-6 pb-4">Customer: <span th:text="${customerInstance.id}"></span> </span>
+        <span class="col-12 col-sm-6 text-sm-end pb-4">
+            <form action="/customer/delete" method="post" onsubmit="return confirm('Are you sure?');">
+                <input type="hidden" name="id" th:value="${customerInstance.id}"/>
+                <button class="btn btn-outline-danger d-block d-sm-inline-block me-2">Delete Customer</button>
+                <a href="/customer" class="btn btn-primary d-block d-sm-inline-block">Back to list</a>
+            </form>
+        </span>
+    </h1>
+
+    <div class="mt-5 card card-body bg-light">
+
+        <form action="/customer/update" th:object="${customerInstance}" class="form" method="post">
+
+            <div class="alert alert-danger" th:if="${! #fields.errors('all').isEmpty()}">
+                <ul>
+                    <li th:each="e : ${#fields.detailedErrors()}" th:class="${e.global}? globalerr : fielderr">
+                        <span th:text="${e.global}? '*' : ${e.fieldName}">The field name</span>
+                        <span th:text="${e.message}">The error message</span>
+                    </li>
+                </ul>
+            </div>
+
+            <input name="id" type="hidden" th:value="${customerInstance.id}"/>
+
+            <div class="row">
+                <div class="form-group col-6 mb-3">
+                    <label>First Name</label>
+                    <input class="form-control" name="firstName" th:value="${customerInstance?.firstName}"/>
+                </div>
+                <div class="form-group col-6 mb-3">
+                    <label>Last Name</label>
+                    <input class="form-control" name="lastName" th:value="${customerInstance?.lastName}"/>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group col-6 mb-3">
+                    <label>Email Address</label>
+                    <input class="form-control" name="emailAddress" th:value="${customerInstance?.emailAddress}"/>
+                </div>
+                <div class="form-group col-6 mb-3">
+                    <label>Phone Number</label>
+                    <input class="form-control" name="phoneNumber" th:value="${customerInstance?.phoneNumber}"/>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group col mb-3">
+                    <label>Address</label>
+                    <input class="form-control" name="address" th:value="${customerInstance?.address}"/>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group col-6 mb-3">
+                    <label>City</label>
+                    <input class="form-control" name="city" th:value="${customerInstance?.city}"/>
+                </div>
+                <div class="form-group col-6 mb-3">
+                    <label>Country</label>
+                    <input class="form-control" name="country" th:value="${customerInstance?.country}"/>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <button type="submit" class="btn btn-success w-100">Save Changes</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<footer th:replace="~{/layout/footer}"/>
+</body>
+</html>
