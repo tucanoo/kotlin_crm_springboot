@@ -28,5 +28,4 @@ class Customer {
     var country: String? = null
 
     var phoneNumber: String? = null
-
 }
